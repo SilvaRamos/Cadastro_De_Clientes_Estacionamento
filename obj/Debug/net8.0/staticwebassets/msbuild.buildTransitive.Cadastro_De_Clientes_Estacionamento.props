@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Cadastro_De_Clientes_Estacionamento.props" />
+</Project>

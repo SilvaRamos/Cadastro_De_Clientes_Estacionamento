@@ -1,0 +1,127 @@
+﻿@model Cliente
+@{
+    ViewData["title"] = "Cadastro de Clientes";
+}
+
+@* <div class="container bg-dark p-5 rounded-5"> *@
+<div class="container">
+
+    <div class="text-center">
+        <h1 class="text-secondary">Cadastro de Clientes</h1>
+    </div>
+    <form method="post" asp-controller="Clientes" asp-action="Cadastrar">
+
+        <div class="mb-3" style="width:30%;">
+            <label for="Tipo" class="text-secondary form-label">Tipo:</label>
+            <select asp-for="Tipo" class="shadow-none form-control" id="tipoCliente" onchange="handleSelectChange(event)">
+                <option value="1">Pessoa Física</option>
+                <option value="2">Pessoa Jurídica</option>
+            </select>
+            <span class="text-danger" asp-validation-for="Tipo"></span>
+        </div>
+
+        
+            <div id="pessoaFisica">
+
+                <div style="display:flex;">
+                <div class="mb-3" style="width:80%;">
+                        <label for="Nome" class="text-secondary form-label">Nome:</label>
+                        <input type="text" asp-for="Nome" class="shadow-none form-control" id="nome" placeholder="">
+                        <span class="text-danger" asp-validation-for="Nome"></span>
+                    </div>
+
+                    <div class="mb-3" style="width:20%;margin-left: 1rem;">
+                        <label for="Sexo" class="text-secondary form-label">Sexo:</label>
+                        <select asp-for="Sexo" class="shadow-none form-control" id="sexo">
+                            <option value="feminino">Feminino</option>
+                            <option value="masculino">Masculino</option>
+                            <option value="Não_Informar">Não Informar</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="Sexo"></span>
+                    </div>
+                </div>
+
+                <div style="display:flex;">
+                    <div class="mb-3" style="width:50%;">
+                        <label for="Cpf" class="text-secondary form-label">Cpf:</label>
+                        <input type="text" asp-for="CPF" class="shadow-none form-control" id="cpf" placeholder="...">
+                        <span class="text-danger" asp-validation-for="CPF"></span>
+                    </div>
+
+                    <div class="mb-3" style="width:50%;margin-left: 1rem;">
+                        <label for="Rg" class="text-secondary form-label">Rg:</label>
+                        <input type="text" asp-for="RG" class="shadow-none form-control" id="rg" placeholder="...">
+                        <span class="text-danger" asp-validation-for="RG"></span>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="Endereco" class="text-secondary form-label">Endereço:</label>
+                    <input type="text" asp-for="Endereco" class="shadow-none form-control" id="endereco" placeholder="...">
+                    <span class="text-danger" asp-validation-for="Endereco"></span>
+                </div>
+
+                <div style="display:flex;">
+                    <div style="width:30%;">
+                        <label for="Telefone" class="text-secondary form-label">Telefone:</label>
+                        <input type="text" asp-for="Telefone" class="shadow-none form-control" id="telefone" placeholder="...">
+                        <span class="text-danger" asp-validation-for="Telefone"></span>
+                    </div>
+
+                    <div style="width:30%;margin-left: 1rem;">
+                        <label for="Celular" class="text-secondary form-label">Celular:</label>
+                        <input type="text" asp-for="Celular" class="shadow-none form-control" id="celular" placeholder="...">
+                        <span class="text-danger" asp-validation-for="Celular"></span>
+                    </div>
+
+                    <div style="width:30%;margin-left: 1rem;">
+                        <label for="Email" class="text-secondary form-label">Email:</label>
+                        <input type="text" asp-for="Email" class="shadow-none form-control" id="email" placeholder="...">
+                        <span class="text-danger" asp-validation-for="Email"></span>
+                    </div>
+                </div>
+                                
+            </div>
+        
+            <div id="pessoaJuridica" style="display:none;">
+                <div>
+                    <label for="Nome_Fantasia" class="text-secondary form-label">Nome Fantasia:</label>
+                    <input type="text" asp-for="Nome_Fantasia" class="shadow-none form-control" id="Nome_Fantasia" placeholder="">
+                    <span class="text-danger" asp-validation-for="Nome_Fantasia"></span>
+                </div>
+
+                <div>
+                    <label for="Razao_Social" class="text-secondary form-label">Razão Social:</label>
+                    <input type="text" asp-for="Razao_Social" class="shadow-none form-control" id="razaoSocial" placeholder="">
+                    <span class="text-danger" asp-validation-for="Razao_Social"></span>
+                </div>
+
+                <div>
+                    <label for="Cnpj" class="text-secondary form-label">Cnpj:</label>
+                    <input type="text" asp-for="CNPJ" class="shadow-none form-control" id="cnpj" placeholder="...">
+                    <span class="text-danger" asp-validation-for="CNPJ"></span>
+                </div>
+            </div>
+        
+        <div style="margin-top: 1rem;">
+            <button type="submit" class="btn btn-success w-50">Salvar</button>
+        </div>
+    </form>
+
+</div>
+
+ <script>
+    function handleSelectChange(event) {
+        var selectElement = event.target;
+        var value = selectElement.value;
+        if (value == 1) {
+            $("#pessoaFisica").show();
+            $("#pessoaJuridica").hide();
+        }
+
+        if (value == 2) {
+            $("#pessoaFisica").hide();
+            $("#pessoaJuridica").show();
+        }
+    }
+ </script>

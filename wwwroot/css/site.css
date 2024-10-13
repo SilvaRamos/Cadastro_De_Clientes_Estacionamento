@@ -1,0 +1,61 @@
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+}
+
+.fundoAzul {
+    border:1px solid red;
+    background-color: cadetblue;
+}
+
+.logo{
+    width:50%;
+}
+
+.cardPago {
+    border: 0px solid black;
+    margin: 1rem 0rem 0rem 2.5rem;
+    width: 20%;
+    height: 7rem;
+    border-radius: .3rem;
+    background-color: darkseagreen;
+    text-align: center;
+}
+
+.cardNaoPago {
+    border: 0px solid black;
+    margin: 1rem 0rem 0rem 2.5rem;
+    width: 20%;
+    height: 7rem;
+    border-radius: .3rem;
+    background-color: indianred;
+    text-align: center;
+}
+
+.cardEmAberto {
+    border: 0px solid black;
+    margin: 1rem 0rem 0rem 2.5rem;
+    width: 20%;
+    height: 7rem;
+    border-radius: .3rem;
+    background-color: whitesmoke;
+    text-align: center;
+}

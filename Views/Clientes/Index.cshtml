@@ -1,0 +1,163 @@
+﻿@model  IEnumerable<Cliente>
+
+@{
+    ViewData["title"] = "Clientes";
+}
+
+<div class="container ">
+
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <h1>Clientes</h1>
+
+        <div>
+            <button id="cadastrarCliente" class="btn btn-success">
+                <i class="glyphicon glyphicon-file"></i>Cadastrar Cliente
+            </button>
+        </div>
+
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="alert alert-success text-light" role="alert">
+                @TempData["MensagemSucesso"]
+            </div>
+        }
+
+        @if (TempData["MensagemErro"] != null)
+        {
+            <div class="alert alert-danger text-light" role="alert">
+                @TempData["MensagemErro"]
+            </div>
+        }
+    </div>
+</div>
+
+<table id="tabelaClientes" class="display table table-striped table-hover">
+
+        <thead>
+            <tr>
+                <th scope="col" style="width:40%;">Nome</th>
+                <th scope="col">CPF/CNPJ</th>
+                <th scope="col">RG</th>
+                <th style="text-align: center;"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(Model != null)
+            {
+                @foreach(var cliente in Model)
+                {
+                <tr>
+                    <td>
+                        @if(cliente.Tipo ==1 )
+                        {
+                            @cliente.Nome
+                        }
+                        @if (cliente.Tipo == 2)
+                        {
+                            @cliente.Nome_Fantasia
+                        }
+                     </td>
+                    <td>
+                        @if (cliente.Tipo == 1)
+                        {
+                            @cliente.CPF
+                        }
+                        @if (cliente.Tipo == 2)
+                        {
+                            @cliente.CNPJ
+                        }
+                    </td>
+                    <td>@cliente.RG</td>
+                    <td style="text-align: center;">
+                        <button class="btn btn-success details" data-id="@cliente.Id"><i class="glyphicon glyphicon-file"></i>Detalhes</button>
+                        @* <a class="btn btn-warning mx-2" asp-controller="Clientes" asp-action="Editar"  asp-route-id="@cliente.Id"><i class="bi bi-pencil-square"></i>Editar</a>
+                        <a class="btn btn-danger mx-2"  asp-controller="Clientes" asp-action="Excluir" asp-route-id="@cliente.Id"><i class="bi bi-trash3-fill"></i>Excluir</a> *@
+                    </td>
+
+                </tr>
+                }
+            }
+        </tbody>
+</table>
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="modalConteudo" class="modal-body">
+            </div>
+        </div>
+    </div>
+</div>
+ 
+@section scripts{
+    <script>
+        $(document).ready(
+            function () {
+                $(".details").click(function () { 
+                    var id = $(this).attr("data-id");
+
+                    $.ajax({
+                        type:'GET',
+                        url: '/Clientes/Detalhes?id=' + id,
+                        success: function(result){
+                            $('#modalConteudo').html(result);
+                            $('#exampleModal').modal('show');
+                        }
+                    });
+                 });
+            })
+
+        $("#cadastrarCliente").click(function () {
+            $.ajax({
+                type: 'GET',
+                url: '/Clientes/Cadastrar',
+                success: function (result) {
+                    $('#modalConteudo').html(result);
+                    $('#exampleModal').modal('show');
+                }
+            });
+        });
+
+        // $(".botaoPagamentoBoleto").click(function () {
+        //     alert();
+        //     let _clienteId = "DF2822F3-0233-49FF-2428-08DCE96E9831";
+        //     let _mesPagamento = 1;
+
+        //     var pagamento = {
+        //         ClienteId: _clienteId,
+        //         mesPagamento: _mesPagamento
+        //     };
+
+        //     $.ajax({
+        //         type: 'POST',
+        //         url: '/Clientes/PagarBoleto',
+        //         success: function (result) {
+        //             $('#modalConteudo').html(result);
+        //             $('#exampleModal').modal('show');
+        //         },
+        //         data: pagamento
+        //     });
+        // });
+
+
+        //sybmit Assincrono de formulario
+        // $(function () {
+
+        //     $("#studForm").submit(function (e) {
+        //         e.preventDefault();  //prevent normal form submission
+
+        //         var actionUrl = $(this).attr("action");  // get the form action value
+        //         $.post(actionUrl, $(this).serialize(), function (res) {
+        //             //res is the response coming from our ajax call. Use this to update DOM
+        //             $("#viewB").html(res);
+        //         });
+        //     });
+
+        // });
+    </script>
+}

@@ -1,0 +1,120 @@
+﻿@using System.Globalization
+@model ClienteDTO
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<div class="modal-body">
+    <dl class="dl-horizontal">
+        <dt>@Html.DisplayNameFor(model => model.cliente.Nome)</dt>
+        <dd>@Html.DisplayFor(model => model.cliente.Nome)</dd>
+        <dt>@Html.DisplayNameFor(model => model.cliente.Email)</dt>
+        <dd>@Html.DisplayFor(model => model.cliente.Email)</dd>
+        <dt>@Html.DisplayNameFor(model => model.cliente.CPF)</dt>
+        <dd>@Html.DisplayFor(model => model.cliente.CPF)</dd>
+    </dl>
+</div>
+
+<div class="container" style="border:0px solid black;">
+
+    <div class="row" style="border:0px solid black;">
+               
+        @for (int mes = 1; mes <= 12; mes++)
+        {
+            string nomeMes = new CultureInfo("pt-BR").DateTimeFormat.GetMonthName(mes);
+
+             if (Model.pagamentos != null)
+            {
+                //Se encontrar o mes na lista de pagamentos mostra como pago
+                if( Model.pagamentos.FirstOrDefault(x => x.mesPagamento == mes) != null )
+                {
+                    <div class="col-12 cardPago">
+                        <div class="text-light font-weight-bold" style="border-bottom:1px solid black;">
+                            @nomeMes
+                        </div>
+                        <div></div>
+                    </div>
+                }
+                else
+                {
+                    //Se o mes não está pago e for um mês já passado, então temos um pagamento atrasado
+                    if (DateTime.UtcNow.Month >= mes)
+                    {
+                        <div class="col-12 cardNaoPago">
+                            <div>
+                                <div class="text-light font-weight-bold" style="border-bottom:1px solid black;">
+                                    @nomeMes
+                                </div>
+                                <button class="btn btn-success botaoPagamentoBoleto">Pagar</button>
+                            </div>
+                            <div></div>
+                        </div>
+                    }else //Se não está pago mas se tratar de um mês futuro mostra como pagamento em aberto
+                    {
+                        <div class="col-12 cardEmAberto">
+                            <div class="text-secondary font-weight-bold" style="border-bottom:1px solid black;">
+                                @nomeMes
+                            </div>
+                            <div></div>
+                        </div>
+                    }
+                }
+            }
+            
+
+            @* <div class="col-6 col-md-4" style="border:1px solid black; margin:0rem 0rem 0rem 1.5rem; width:25%; height:5rem;">
+            <div style="border-bottom:1px solid black;">Jan</div>
+            <div>pago</div> *@
+        }
+
+    </div>
+</div>
+ 
+ 
+    <script>
+
+    $(".botaoPagamentoBoleto").click(function () {
+        alert();
+        let _clienteId = "DF2822F3-0233-49FF-2428-08DCE96E9831";
+        let _mesPagamento = 1;
+
+        var pagamento = {
+            ClienteId: _clienteId,
+            mesPagamento: _mesPagamento
+        };
+
+        $.ajax({
+            type: 'POST',
+            url: '/Clientes/PagarBoleto',
+            success: function (result) {
+                $('#modalConteudo').html(result);
+                $('#exampleModal').modal('show');
+            },
+            data: pagamento
+        });
+    });
+
+@* 
+    $(".botaoPagamentoBoleto").click(function () {
+            alert();
+            let _clienteId = "DF2822F3-0233-49FF-2428-08DCE96E9831";
+            let _mesPagamento = 1;
+
+            var pagamento = {
+                ClienteId: _clienteId,
+                mesPagamento: _mesPagamento
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/Clientes/PagarBoleto',
+                success: function (result) {
+                    $('#modalConteudo').html(result);
+                    $('#exampleModal').modal('show');
+                },
+                data: pagamento
+            });
+ *@
+ 
+    </script>
+}
